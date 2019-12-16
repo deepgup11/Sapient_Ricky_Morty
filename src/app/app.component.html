@@ -1,0 +1,77 @@
+<div style="float: left;">
+		<!-- Heading Title -->
+		<h4 class="app-heading">Filters:</h4>
+		
+		<!-- Search Field -->
+		<!-- Clear Link -->
+		<div class="clear-selection" title="Click to Clear Selections" (click)="clearSelection()" *ngIf="selected_count">Clear Selection</div>
+		
+		<!-- Species List -->
+		<ul class="game-list">
+			<h6>Species</h6>
+		  <li *ngFor="let g of filterItems | unique : 'species' | filter : searchText " class="game-item"> 
+			<input (change)="getSelected($event,'species',g)" type="checkbox"
+					 name="games"
+					 [(ngModel)] = "g.isspecies"
+					 /> 
+			<span class="game-text">{{g.species}}</span>
+		  </li>
+		</ul>
+
+		<ul class="game-list">
+				<h6>Gender</h6>
+				<li *ngFor="let g of filterItems | unique : 'gender' | filter : searchText " class="game-item"> 
+				  <input (change)="getSelected($event,'gender',g)" type="checkbox"
+						   name="games"
+						   [(ngModel)] = "g.isgender"
+						   /> 
+				  <span class="game-text">{{g.gender}}</span>
+				</li>
+		</ul>
+
+		<ul class="game-list">
+				<h6>Origin</h6>
+				<li *ngFor="let g of filterItems | unique : 'origin.name' | filter : searchText" class="game-item"> 
+				  <input (change)="getSelected($event,'origin',g)" type="checkbox"
+						   name="games"
+						   [(ngModel)] = "g.isorigin"
+						   /> 
+				  <span class="game-text">{{g.origin.name}}</span>
+				</li>
+		</ul>
+
+
+		
+		<!-- Selected Games-->
+		<div class="selected-games-wrap">
+			<div class="selected-game" *ngFor="let s of characterItems" >
+			  <span *ngIf= "s.selected">{{s.name}} <span class="delete-game" (click)="deleteGame(s.id)" title="Click to delete">X</span></span>
+			</div>
+		</div>
+		
+	  </div>
+  
+
+<select class="browser-default custom-select" [(ngModel)] = "sortOrder" (change) = "changeSortOrder(sortOrder)"  style="width:10%;">
+		<option value=" " selected disabled hidden>Sort by ID</option>
+		<option value="true">Ascending</option>
+		<option value="false">Descending</option>
+</select>
+<div class="card-deck" >
+	<div class="card"  *ngFor="let character of characterItems | orderBy : reverse ">
+	  <img class="card-img-top" src="{{character.image}}" alt="Company logo">
+	  <div class="card-body">
+		<h5 class="card-title">{{character.name}}</h5>
+		<h6 class="card-title"><small> Created on: {{character.created}} </small></h6>
+		<ul class="list-group">
+		  <li class="list-group-item list-group-item-success"><i class="fa fa-info-circle"style="font-size:20px;"></i>  {{character.status}} </li>
+		  <li class="list-group-item list-group-item-success"><i class="fa fa-user"style="font-size:20px;"></i>   {{character.species}}</li>
+		  <li class="list-group-item list-group-item-success"><i class="fa fa-mars"style="font-size:20px;"></i>   {{character.gender}}</li>
+		  <li class="list-group-item list-group-item-success"><i class="fa fa-map-pin"style="font-size:20px;"></i>   {{character.origin.name}}</li>
+		  <li class="list-group-item list-group-item-success"><i class="fa fa-map-marker"style="font-size:20px;"></i>   {{character.location.name}}</li>
+		</ul>
+		
+	  </div>
+	  
+	</div>
+</div>
